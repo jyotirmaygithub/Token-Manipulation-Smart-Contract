@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "token-flow-backend": {
+      "candid": "src/token-flow-backend/token-flow-backend.did",
+      "package": "token-flow-backend",
+      "type": "rust"
+    },
+    "token-flow-frontend": {
+      "dependencies": [
+        "token-flow-backend"
+      ],
+      "source": [
+        "src/token-flow-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "token-flow-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
