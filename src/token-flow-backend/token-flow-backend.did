@@ -1,3 +1,5 @@
+type User = record { username : text; tokens : int32 };
 service : {
-    "greet": (text) -> (text) query;
+  create_user : (text, text) -> ();
+  getting_user : () -> (vec record { text; User }) query;
 }
