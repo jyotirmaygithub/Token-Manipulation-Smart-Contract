@@ -1,5 +1,7 @@
 type User = record { username : text; tokens : int32 };
 service : {
-  create_user : (text, text) -> ();
-  getting_user : () -> (vec record { text; User }) query;
+  add_user_profile : (text, User) -> ();
+  admin_profile : (User) -> ();
+  assign_tokens : (text, int32) -> ();
+  get_user_profile : (text) -> (opt User) query;
 }
