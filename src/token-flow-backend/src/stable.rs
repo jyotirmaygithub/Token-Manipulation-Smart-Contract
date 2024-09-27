@@ -1,3 +1,4 @@
+// this code is for the stable memory implementation with some function to use for the data manipulation.
 
 use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 use ic_stable_structures::DefaultMemoryImpl;
@@ -11,8 +12,9 @@ use candid::{CandidType, Decode, Encode};
 use std::borrow::Cow;
 use crate::profile_creation::User;
 
-
+// memory to save data.
 pub type Memory = VirtualMemory<DefaultMemoryImpl>;
+// hashmap or tree to save user data.
 pub type UserProfiles = StableBTreeMap<String, User, Memory>;
 // pub type UserMessages = StableBTreeMap<String,Candid<VecDeque<Message>>,Memory>;
 
@@ -40,10 +42,12 @@ thread_local! {
     );
 }
 
+// function to be use to read data.
 pub fn read_state<R>(f: impl FnOnce(&State) -> R) -> R {
     STATE.with(|cell| f(&cell.borrow()))
 }
 
+// function to be use to add and change the user.
 pub fn mutate_state<R>(f: impl FnOnce(&mut State) -> R) -> R {
     STATE.with(|cell| f(&mut cell.borrow_mut()))
 }
