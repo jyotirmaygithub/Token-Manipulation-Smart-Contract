@@ -1,61 +1,84 @@
-# `token-flow`
+# Token Manipulation Smart Contract
 
-Welcome to your new `token-flow` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+This smart contract provides functionality for managing user profiles and token manipulation on the Internet Computer. It includes functions for creating user profiles, assigning tokens, transferring tokens, burning tokens, and minting new tokens.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Features
 
-To learn more before you start working with `token-flow`, see the following documentation available online:
+- **Admin Profile Creation**: Allows the admin to create a user profile if it doesn't already exist.
+- **Add User Profile**: Enables the addition of user profiles by their user ID.
+- **Assign Tokens**: Allows the admin to assign tokens to a user, checking for sufficient balance.
+- **Minter**: Allows the admin to mint a specified number of tokens.
+- **Transfer Tokens**: Enables the transfer of tokens from one user to another.
+- **Burn Tokens**: Allows a user to burn their tokens, reducing their balance.
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+## Functions
 
-If you want to start working on your project right away, you might want to try the following commands:
+### 1. `admin_profile(user: User)`
 
-```bash
-cd token-flow/
-dfx help
-dfx canister --help
-```
+- **Description**: Creates a user profile for the admin if it does not already exist.
+- **Parameters**: 
+  - `user`: A `User` object containing user details.
+- **Panic**: If the admin profile already exists.
 
-## Running the project locally
+### 2. `add_user_profile(user_id: String, user: User)`
 
-If you want to test your project locally, you can use the following commands:
+- **Description**: Adds a new user profile.
+- **Parameters**:
+  - `user_id`: The unique identifier for the user.
+  - `user`: A `User` object containing user details.
+- **Panic**: If the user profile with the given `user_id` already exists.
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+### 3. `assign_tokens(user_id: String, amount: i32)`
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+- **Description**: Assigns tokens from the admin to a specified user.
+- **Parameters**:
+  - `user_id`: The ID of the user receiving tokens.
+  - `amount`: The number of tokens to assign.
+- **Panic**: If the admin does not have enough tokens to assign.
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+### 4. `minter()`
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+- **Description**: Mints a specified number of tokens for the admin.
+- **Parameters**: None.
+- **Notes**: Currently, it mints a fixed amount of 100,000 tokens.
 
-```bash
-npm run generate
-```
+### 5. `transfer_tokens(sender: String, receiver: String, number_tokens: i32)`
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+- **Description**: Transfers tokens from one user to another.
+- **Parameters**:
+  - `sender`: The ID of the sender.
+  - `receiver`: The ID of the receiver.
+  - `number_tokens`: The number of tokens to transfer.
+- **Panic**: If the sender does not have enough tokens to send.
 
-If you are making frontend changes, you can start a development server with
+### 6. `burn_tokens(burner_id: String, number_tokens: i32)`
 
-```bash
-npm start
-```
+- **Description**: Allows a user to burn their tokens.
+- **Parameters**:
+  - `burner_id`: The ID of the user burning tokens.
+  - `number_tokens`: The number of tokens to burn.
+- **Panic**: If the user does not have enough tokens to burn.
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+### 7. `get_user_profile(user_id: String) -> Option<User>`
 
-### Note on frontend environment variables
+- **Description**: Retrieves the user profile for a given user ID.
+- **Parameters**:
+  - `user_id`: The unique identifier for the user.
+- **Returns**: An `Option<User>` containing the user profile or `None` if it does not exist.
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+## Getting Started
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+To get started with the token manipulation smart contract:
+
+1. Clone the repository.
+2. Set up your development environment for Rust and the Internet Computer SDK.
+3. Compile the smart contract and deploy it to the Internet Computer.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Acknowledgements
+
+- Thanks to the DFINITY team for their support and documentation.
+- Special thanks to the Rust community for their resources and libraries.
