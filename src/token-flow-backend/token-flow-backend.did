@@ -3,5 +3,8 @@ service : {
   add_user_profile : (text, User) -> ();
   admin_profile : (User) -> ();
   assign_tokens : (text, int32) -> ();
+  burn_tokens : (text, int32) -> ();
   get_user_profile : (text) -> (opt User) query;
+  minter : () -> ();
+  transfer_tokens : (text, text, int32) -> ();
 }
